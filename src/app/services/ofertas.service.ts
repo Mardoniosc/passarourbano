@@ -25,6 +25,12 @@ export class OfertasService {
               .then((resposta: any) => resposta)
   }
 
+  public getOfertaId(id: number): Promise<Oferta>{
+    return this.httpCliente.get(`http://localhost:3333/ofertas?id=${id}`)
+              .toPromise()
+              .then((resposta: any) => resposta[0])
+  }
+
 }
 
 
