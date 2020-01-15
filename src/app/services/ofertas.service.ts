@@ -5,30 +5,50 @@ import 'node_modules/rxjs/operator/toPromise'
 
 import { Oferta } from '../shared/model/oferta.model'
 
+import { URL_API } from '../config/app.api'
+
 @Injectable()
 export class OfertasService {
+
+  private url_string = `${URL_API}/ofertas`
 
   constructor(private httpCliente: HttpClient ) {}
 
   public getOfertas(): Promise<Oferta[]> {
     // Efetuar uma requisição Http
 
-    return this.httpCliente.get('http://localhost:3333/ofertas?destaque=true')
+    return this.httpCliente.get(`${this.url_string}?destaque=true`)
       .toPromise()
       .then((resposta: any) => resposta )
     // Retorna um promise oferta
   }
 
   public getOfertasCategoria(categoria: string) : Promise<Oferta[]> {
-    return this.httpCliente.get(`http://localhost:3333/ofertas?categoria=${categoria}`)
+    return this.httpCliente.get(`${this.url_string}?categoria=${categoria}`)
               .toPromise()
               .then((resposta: any) => resposta)
   }
 
   public getOfertaId(id: number): Promise<Oferta>{
-    return this.httpCliente.get(`http://localhost:3333/ofertas?id=${id}`)
+    return this.httpCliente.get(`${this.url_string}?id=${id}`)
               .toPromise()
               .then((resposta: any) => resposta[0])
+  }
+
+  public getComoUsarOfertaPorId(id: number): Promise<string> {
+    return this.httpCliente.get(`${URL_API}/como-usar?id=${id}`)
+      .toPromise()
+      .then((resposta: any) => {
+        return resposta[0].descricao
+      })
+  }
+
+  public getOndeFicaPorId(id: number): Promise<string> {
+    return this.httpCliente.get(`${URL_API}/onde-fica?id=${id}`)
+      .toPromise()
+      .then((resposta: any) => {
+        return resposta[0].descricao
+      })
   }
 
 }
