@@ -57,45 +57,8 @@ export class OfertasService {
 
   public pesquisaOfertas(termo: string): Observable<Oferta[]> {
     return this.httpCliente.get(`${URL_API}/ofertas?descricao_oferta_like=${termo}`)
-      .retry(10)
+      .retry(3)
       .map((resposta: any) => resposta)
   }
 
 }
-
-
-
-
-
-
-  // public getOfertas2(): Promise<Oferta[]> {
-  //   return new Promise((resolve, reject) => {
-  //     const deu_certo = true
-
-  //     if (deu_certo) {
-  //       setTimeout(() => resolve(this.ofertas), 3000)
-
-  //     } else {
-  //       reject({ error: 500, mensagemError: 'Internal server error' })
-  //     }
-  //   })
-  //   .then((ofertas: Oferta[]) => {
-  //     // fazer alguma tratativa
-  //     console.log('primeiro then')
-  //     return ofertas
-  //   })
-
-  //   .then((ofertas: Oferta[]) => {
-  //     // fazer alguma tratativa
-  //     console.log('Segundo then')
-  //     return new Promise((resolve2, reject2) => {
-  //       setTimeout(() => {resolve2( ofertas )}, 3000)
-  //     })
-  //   })
-  //   .then((ofertas: Oferta[]) => {
-  //     console.log('Terceiro then executado após 3s porque estava esperando um promisse ser resolvidao')
-  //     return ofertas
-  //   })
-
-
-  // }

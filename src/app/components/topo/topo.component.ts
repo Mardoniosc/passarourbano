@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { OfertasService } from '../../services/ofertas.service'
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Oferta } from 'src/app/shared/model/oferta.model';
 
 @Component({
@@ -13,20 +13,37 @@ import { Oferta } from 'src/app/shared/model/oferta.model';
 export class TopoComponent implements OnInit {
 
   public ofertas: Observable<Oferta[]>
+  public ofertas2: Oferta[]
+
+  private subjectPesquisa: Subject<string> = new Subject<string>()
 
   constructor( private ofertaService: OfertasService ) { }
 
   ngOnInit() {
+    this.ofertas = this.subjectPesquisa //retorno
+      .debounceTime(1000) // executa a ação após 1s
+      .distinctUntilChanged()
+      .switchMap((termo: string) => {
+        console.log('requisicação http para a api: ', termo)
+        if(termo.trim() === ''){
+          return Observable.of<Oferta[]>([])
+        }
+        return this.ofertaService.pesquisaOfertas(termo)
+      })
+      .catch((erro: any) => {
+        console.log(erro) // envia para administração
+        return Observable.of<Oferta[]>([])
+      })
+
+    this.ofertas.subscribe((ofertas: Oferta[]) => {
+      console.log(ofertas)
+      this.ofertas2 = ofertas
+    })
   }
 
   public perquisa(termoDaPesquisa: string): void {
-    this.ofertas = this.ofertaService.pesquisaOfertas(termoDaPesquisa)
-
-    this.ofertas.subscribe(
-      (ofertas: Oferta[]) => console.log(ofertas),
-      (erro: any) => console.log('Error status', erro.status),
-      () => console.log('Fluxo de eventos completos')
-    )
+    console.log('Keyup caracter: ', termoDaPesquisa)
+    this.subjectPesquisa.next(termoDaPesquisa)
   }
 
 }

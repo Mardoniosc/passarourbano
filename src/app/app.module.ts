@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http'
+import { HttpClientModule} from '@angular/common/http'
 import { RouterModule } from '@angular/router'
+
 
 import { ROUTES } from '../app/routes/app.routes'
 
@@ -16,6 +17,11 @@ import { OfertaComponent } from './components/oferta/oferta.component';
 import { ComoUsarComponent } from './components/oferta/como-usar/como-usar.component';
 import { OndeFicaComponent } from './components/oferta/onde-fica/onde-fica.component';
 
+
+// PIPE
+
+import { DescricaoReduzida } from './util/descricao-reduzida.pipe'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +32,8 @@ import { OndeFicaComponent } from './components/oferta/onde-fica/onde-fica.compo
     DiversaoComponent,
     OfertaComponent,
     ComoUsarComponent,
-    OndeFicaComponent
+    OndeFicaComponent,
+    DescricaoReduzida
   ],
   imports: [
     BrowserModule,
