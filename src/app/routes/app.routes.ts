@@ -4,6 +4,7 @@ import { HomeComponent } from '../components/home/home.component'
 import { RestaurantesComponent } from '../components/restaurantes/restaurantes.component'
 import { DiversaoComponent } from '../components/diversao/diversao.component'
 import { OfertaComponent } from '../components/oferta/oferta.component'
+import { OrdemCompraComponent } from '../components/ordem-compra/ordem-compra.component'
 
 // comoponentes filhos
 import { ComoUsarComponent } from '../components/oferta/como-usar/como-usar.component'
@@ -21,5 +22,6 @@ export const ROUTES: Routes = [
       { path: 'como-usar', component: ComoUsarComponent },
       { path: 'onde-fica', component: OndeFicaComponent }
     ]
-  }
+  },
+  { path: 'ordem-compra', component: OrdemCompraComponent }
 ]
