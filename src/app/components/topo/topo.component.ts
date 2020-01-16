@@ -13,7 +13,6 @@ import { Oferta } from 'src/app/shared/model/oferta.model';
 export class TopoComponent implements OnInit {
 
   public ofertas: Observable<Oferta[]>
-  public ofertas2: Oferta[]
 
   private subjectPesquisa: Subject<string> = new Subject<string>()
 
@@ -24,7 +23,6 @@ export class TopoComponent implements OnInit {
       .debounceTime(1000) // executa a ação após 1s
       .distinctUntilChanged()
       .switchMap((termo: string) => {
-        console.log('requisicação http para a api: ', termo)
         if(termo.trim() === ''){
           return Observable.of<Oferta[]>([])
         }
@@ -34,16 +32,13 @@ export class TopoComponent implements OnInit {
         console.log(erro) // envia para administração
         return Observable.of<Oferta[]>([])
       })
-
-    this.ofertas.subscribe((ofertas: Oferta[]) => {
-      console.log(ofertas)
-      this.ofertas2 = ofertas
-    })
   }
 
   public perquisa(termoDaPesquisa: string): void {
-    console.log('Keyup caracter: ', termoDaPesquisa)
     this.subjectPesquisa.next(termoDaPesquisa)
   }
 
+  public limpaPesquisa(): void {
+    this.subjectPesquisa.next('')
+  }
 }
